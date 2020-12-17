@@ -24,7 +24,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@ApiModel(description = "登陆信息实体类")
+@ApiModel()
 @TableName(value = "sys_logininfor")
 public class SysLogininfor extends BaseEntity {
     private static final long serialVersionUID = 1L;

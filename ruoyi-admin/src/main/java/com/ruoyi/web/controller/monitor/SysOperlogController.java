@@ -8,10 +8,12 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.system.domain.SysOperLog;
 import com.ruoyi.system.service.ISysOperLogService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,10 +30,12 @@ public class SysOperlogController extends BaseController
 
     @PreAuthorize("@ss.hasPermi('monitor:operlog:list')")
     @GetMapping("/list")
+    @ApiOperation("查询操作日志列表")
     public TableDataInfo list(SysOperLog operLog)
     {
         startPage();
-        List<SysOperLog> list = operLogService.selectOperLogList(operLog);
+//        List<SysOperLog> list = operLogService.selectOperLogList(operLog);
+        List<SysOperLog> list = operLogService.listByMap(operLog.toMap());
         return getDataTable(list);
     }
 
@@ -40,7 +44,8 @@ public class SysOperlogController extends BaseController
     @GetMapping("/export")
     public AjaxResult export(SysOperLog operLog)
     {
-        List<SysOperLog> list = operLogService.selectOperLogList(operLog);
+//        List<SysOperLog> list = operLogService.selectOperLogList(operLog);
+        List<SysOperLog> list = operLogService.listByMap(operLog.toMap());
         ExcelUtil<SysOperLog> util = new ExcelUtil<SysOperLog>(SysOperLog.class);
         return util.exportExcel(list, "操作日志");
     }
@@ -49,7 +54,8 @@ public class SysOperlogController extends BaseController
     @DeleteMapping("/{operIds}")
     public AjaxResult remove(@PathVariable Long[] operIds)
     {
-        return toAjax(operLogService.deleteOperLogByIds(operIds));
+//        return toAjax(operLogService.deleteOperLogByIds(operIds));
+        return toAjax(operLogService.removeByIds(Arrays.asList(operIds)));
     }
 
     @Log(title = "操作日志", businessType = BusinessType.CLEAN)
@@ -57,7 +63,8 @@ public class SysOperlogController extends BaseController
     @DeleteMapping("/clean")
     public AjaxResult clean()
     {
-        operLogService.cleanOperLog();
+//        operLogService.cleanOperLog();
+        operLogService.remove(null);
         return AjaxResult.success();
     }
 }
