@@ -1,11 +1,15 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.domain.SysNotice;
 import com.ruoyi.system.mapper.SysNoticeMapper;
 import com.ruoyi.system.service.ISysNoticeService;
+
+import javax.annotation.Resource;
 
 /**
  * 公告 服务层实现
@@ -13,9 +17,9 @@ import com.ruoyi.system.service.ISysNoticeService;
  * @author ruoyi
  */
 @Service
-public class SysNoticeServiceImpl implements ISysNoticeService
+public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper,SysNotice> implements ISysNoticeService
 {
-    @Autowired
+    @Resource
     private SysNoticeMapper noticeMapper;
 
     /**
