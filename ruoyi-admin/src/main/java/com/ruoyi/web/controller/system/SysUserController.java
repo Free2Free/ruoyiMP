@@ -24,6 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,9 +65,11 @@ public class SysUserController extends BaseController
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:user:export')")
     @GetMapping("/export")
+    @ApiOperation("导出用户信息表")
     public AjaxResult export(SysUser user)
     {
-        List<SysUser> list = userService.selectUserList(user);
+//        List<SysUser> list = userService.selectUserList(user);
+        List<SysUser> list = userService.listByMap(user.toMap());
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
         return util.exportExcel(list, "用户数据");
     }
@@ -74,6 +77,7 @@ public class SysUserController extends BaseController
     @Log(title = "用户管理", businessType = BusinessType.IMPORT)
     @PreAuthorize("@ss.hasPermi('system:user:import')")
     @PostMapping("/importData")
+    @ApiOperation("导入用户信息表")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
     {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
@@ -96,6 +100,7 @@ public class SysUserController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:user:query')")
     @GetMapping(value = { "/", "/{userId}" })
+    @ApiOperation("根据用户编号获取详细信息")
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId)
     {
         AjaxResult ajax = AjaxResult.success();
@@ -117,6 +122,7 @@ public class SysUserController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:user:add')")
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping
+    @ApiOperation("新增用户")
     public AjaxResult add(@Validated @RequestBody SysUser user)
     {
         if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user.getUserName())))
@@ -135,7 +141,8 @@ public class SysUserController extends BaseController
         }
         user.setCreateBy(SecurityUtils.getUsername());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
-        return toAjax(userService.insertUser(user));
+//        return toAjax(userService.insertUser(user));
+        return toAjax(userService.save(user));
     }
 
     /**
@@ -144,6 +151,7 @@ public class SysUserController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping
+    @ApiOperation("修改用户")
     public AjaxResult edit(@Validated @RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
@@ -158,7 +166,7 @@ public class SysUserController extends BaseController
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         user.setUpdateBy(SecurityUtils.getUsername());
-        return toAjax(userService.updateUser(user));
+        return toAjax(userService.updateById(user));
     }
 
     /**
@@ -167,9 +175,11 @@ public class SysUserController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:user:remove')")
     @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{userIds}")
+    @ApiOperation("删除用户")
     public AjaxResult remove(@PathVariable Long[] userIds)
     {
-        return toAjax(userService.deleteUserByIds(userIds));
+//        return toAjax(userService.deleteUserByIds(userIds));
+        return toAjax(userService.removeByIds(Arrays.asList(userIds)));
     }
 
     /**
@@ -178,11 +188,13 @@ public class SysUserController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:user:resetPwd')")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/resetPwd")
+    @ApiOperation("重置密码")
     public AjaxResult resetPwd(@RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         user.setUpdateBy(SecurityUtils.getUsername());
+        // 重置密码需要自定义方法
         return toAjax(userService.resetPwd(user));
     }
 
@@ -192,10 +204,12 @@ public class SysUserController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
+    @ApiOperation("状态修改")
     public AjaxResult changeStatus(@RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
         user.setUpdateBy(SecurityUtils.getUsername());
-        return toAjax(userService.updateUserStatus(user));
+//        return toAjax(userService.updateUserStatus(user));
+        return toAjax(userService.updateById(user));
     }
 }

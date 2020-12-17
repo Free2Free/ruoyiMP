@@ -105,8 +105,7 @@ public class SysUser extends BaseEntity {
      * 密码
      */
     @ApiModelProperty("密码")
-    @JsonIgnore
-    @JsonProperty
+    @TableField(select = false)
     private String password;
 
     /**
@@ -114,7 +113,6 @@ public class SysUser extends BaseEntity {
      */
     @ApiModelProperty("盐加密")
     @TableField(exist = false)
-    @JsonIgnore
     private String salt;
 
     /**
@@ -180,12 +178,14 @@ public class SysUser extends BaseEntity {
         this.userId = userId;
     }
 
+    @JsonIgnore
     public boolean isAdmin() {
         return isAdmin(this.userId);
     }
 
     /**
      * 判断是不是管理员
+     *
      * @param userId
      * @return
      */
