@@ -2,6 +2,8 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import java.util.Set;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.common.core.domain.entity.SysRole;
 
 /**

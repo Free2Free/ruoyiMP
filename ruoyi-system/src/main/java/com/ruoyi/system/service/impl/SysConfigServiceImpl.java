@@ -1,8 +1,14 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
+
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.annotation.DataSource;
@@ -23,7 +29,7 @@ import com.ruoyi.system.service.ISysConfigService;
  * @author ruoyi
  */
 @Service
-public class SysConfigServiceImpl implements ISysConfigService
+public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig> implements ISysConfigService
 {
     @Autowired
     private SysConfigMapper configMapper;
@@ -37,7 +43,8 @@ public class SysConfigServiceImpl implements ISysConfigService
     @PostConstruct
     public void init()
     {
-        List<SysConfig> configsList = configMapper.selectConfigList(new SysConfig());
+//        List<SysConfig> configsList = configMapper.selectConfigList(new SysConfig());
+        List<SysConfig> configsList = configMapper.selectList(null);
         for (SysConfig config : configsList)
         {
             redisCache.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
@@ -54,9 +61,10 @@ public class SysConfigServiceImpl implements ISysConfigService
     @DataSource(DataSourceType.MASTER)
     public SysConfig selectConfigById(Long configId)
     {
-        SysConfig config = new SysConfig();
-        config.setConfigId(configId);
-        return configMapper.selectConfig(config);
+//        SysConfig config = new SysConfig();
+//        config.setConfigId(configId);
+        return configMapper.selectById(configId);
+//        return configMapper.selectConfig(config);
     }
 
     /**
@@ -75,7 +83,10 @@ public class SysConfigServiceImpl implements ISysConfigService
         }
         SysConfig config = new SysConfig();
         config.setConfigKey(configKey);
-        SysConfig retConfig = configMapper.selectConfig(config);
+//        SysConfig retConfig = configMapper.selectConfig(config);
+        QueryWrapper<SysConfig> wrapper = new QueryWrapper<>();
+        wrapper.eq("config_key",configKey);
+        SysConfig retConfig = configMapper.selectOne(wrapper);
         if (StringUtils.isNotNull(retConfig))
         {
             redisCache.setCacheObject(getCacheKey(configKey), retConfig.getConfigValue());
@@ -93,7 +104,8 @@ public class SysConfigServiceImpl implements ISysConfigService
     @Override
     public List<SysConfig> selectConfigList(SysConfig config)
     {
-        return configMapper.selectConfigList(config);
+//        return configMapper.selectConfigList(config);
+        return configMapper.selectList(null);
     }
 
     /**
@@ -105,7 +117,8 @@ public class SysConfigServiceImpl implements ISysConfigService
     @Override
     public int insertConfig(SysConfig config)
     {
-        int row = configMapper.insertConfig(config);
+//        int row = configMapper.insertConfig(config);
+        int row = configMapper.insert(config);
         if (row > 0)
         {
             redisCache.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
@@ -122,7 +135,8 @@ public class SysConfigServiceImpl implements ISysConfigService
     @Override
     public int updateConfig(SysConfig config)
     {
-        int row = configMapper.updateConfig(config);
+//        int row = configMapper.updateConfig(config);
+        int row = configMapper.updateById(config);
         if (row > 0)
         {
             redisCache.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
@@ -147,7 +161,8 @@ public class SysConfigServiceImpl implements ISysConfigService
                 throw new CustomException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
             }
         }
-        int count = configMapper.deleteConfigByIds(configIds);
+//        int count = configMapper.deleteConfigByIds(configIds);
+        int count = configMapper.deleteBatchIds(Arrays.asList(configIds));
         if (count > 0)
         {
             Collection<String> keys = redisCache.keys(Constants.SYS_CONFIG_KEY + "*");
@@ -176,7 +191,8 @@ public class SysConfigServiceImpl implements ISysConfigService
     public String checkConfigKeyUnique(SysConfig config)
     {
         Long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
-        SysConfig info = configMapper.checkConfigKeyUnique(config.getConfigKey());
+//        SysConfig info = configMapper.checkConfigKeyUnique(config.getConfigKey());
+        SysConfig info = configMapper.selectOne(new QueryWrapper<SysConfig>().eq("config_key",config.getConfigKey()));
         if (StringUtils.isNotNull(info) && info.getConfigId().longValue() != configId.longValue())
         {
             return UserConstants.NOT_UNIQUE;

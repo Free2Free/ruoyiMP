@@ -96,6 +96,27 @@ mybatis:
     # 加载全局的配置文件
     configLocation: classpath:mybatis/mybatis-config.xml
 
+mybatis-plus:
+  mapperLocations: classpath:mybatis/**/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.ruoyi.**.**.domain
+  global-config:
+    #是否控制台 print mybatis-plus 的 LOGO
+    banner: true
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: id_worker
+      #表前缀
+      #      table-prefix: tb_
+      #表名、是否使用下划线命名
+      table-underline: true
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
 # PageHelper分页插件
 pagehelper: 
   helperDialect: mysql
