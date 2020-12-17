@@ -1,10 +1,10 @@
 package com.ruoyi.web.controller.tool;
 
+import com.ruoyi.common.core.controller.BaseController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.ruoyi.common.core.controller.BaseController;
 
 /**
  * swagger 接口
@@ -19,6 +19,7 @@ public class SwaggerController extends BaseController
     @GetMapping()
     public String index()
     {
-        return redirect("/swagger-ui.html");
+//        return redirect("/swagger-ui.html");
+        return redirect("doc.html");
     }
 }

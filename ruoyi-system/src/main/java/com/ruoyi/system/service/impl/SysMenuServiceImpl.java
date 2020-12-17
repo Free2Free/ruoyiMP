@@ -24,6 +24,8 @@ import com.ruoyi.system.mapper.SysRoleMapper;
 import com.ruoyi.system.mapper.SysRoleMenuMapper;
 import com.ruoyi.system.service.ISysMenuService;
 
+import javax.annotation.Resource;
+
 /**
  * 菜单 业务层处理
  * 
@@ -40,7 +42,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     @Autowired
     private SysRoleMapper roleMapper;
 
-    @Autowired
+    @Resource
     private SysRoleMenuMapper roleMenuMapper;
 
     /**
@@ -72,7 +74,7 @@ public class SysMenuServiceImpl implements ISysMenuService
         }
         else
         {
-            menu.getParams().put("userId", userId);
+//            menu.getParams().put("userId", userId);
             menuList = menuMapper.selectMenuListByUserId(menu);
         }
         return menuList;

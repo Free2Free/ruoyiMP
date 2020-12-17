@@ -27,6 +27,29 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>io.springfox</groupId>-->
+<!--            <artifactId>springfox-swagger2</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.swagger</groupId>-->
+<!--            <artifactId>swagger-annotations</artifactId>-->
+<!--            <version>1.5.24</version>-->
+<!--        </dependency>-->
+<!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;            <groupId>io.swagger</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <artifactId>swagger-models</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <version>1.5.24</version>&ndash;&gt;-->
+<!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;            <groupId>io.swagger</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <artifactId>swagger-core</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <version>1.5.19</version>&ndash;&gt;-->
+<!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.xiaoymin</groupId>-->
+<!--            <artifactId>swagger-bootstrap-ui</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>

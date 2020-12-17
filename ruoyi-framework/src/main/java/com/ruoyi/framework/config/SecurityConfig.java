@@ -18,6 +18,8 @@ import com.ruoyi.framework.security.filter.JwtAuthenticationTokenFilter;
 import com.ruoyi.framework.security.handle.AuthenticationEntryPointImpl;
 import com.ruoyi.framework.security.handle.LogoutSuccessHandlerImpl;
 
+import javax.annotation.Resource;
+
 /**
  * spring security配置
  * 
@@ -29,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     /**
      * 自定义用户认证逻辑
      */
-    @Autowired
+    @Resource
     private UserDetailsService userDetailsService;
     
     /**
@@ -109,6 +111,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/common/download**").anonymous()
                 .antMatchers("/common/download/resource**").anonymous()
                 .antMatchers("/swagger-ui.html").anonymous()
+                .antMatchers("/doc.html").anonymous()
+                .antMatchers("/doc.html").permitAll()
                 .antMatchers("/swagger-resources/**").anonymous()
                 .antMatchers("/webjars/**").anonymous()
                 .antMatchers("/*/api-docs").anonymous()

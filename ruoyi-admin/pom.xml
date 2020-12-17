@@ -44,10 +44,10 @@
         </dependency>
 
         <!-- swagger2-UI-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.springfox</groupId>-->
+<!--            <artifactId>springfox-swagger-ui</artifactId>-->
+<!--        </dependency>-->
 
          <!-- Mysql驱动包 -->
         <dependency>
@@ -77,7 +77,6 @@
             <groupId>repository.com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
