@@ -78,8 +78,10 @@ public class BaseEntity implements Serializable {
                 String propertyName = null; // javaBean属性名
                 Object propertyValue = null; // javaBean属性值
                 for (PropertyDescriptor pd : propertyDescriptors) {
-                    propertyName = pd.getName();
-                    if (!propertyName.equals("class")) {
+                    propertyName = pd.getName().trim();
+
+                    if (!propertyName.equals("class") && !propertyName.equals("admin")) {
+                        System.out.println("propertyName = " + propertyName);
                         Method readMethod = pd.getReadMethod();
                         propertyValue = readMethod.invoke(this, new Object[0]);
                         if (StringUtils.isNotBlank(propertyValue.toString())) {
