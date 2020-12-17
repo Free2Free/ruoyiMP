@@ -102,11 +102,13 @@ public class MyBatisConfig {
         VFS.addImplClass(SpringBootVFS.class);
 
 //        final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        // 使用MybatisPlus
         final MybatisSqlSessionFactoryBean sessionFactory = new MybatisSqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
         sessionFactory.setTypeAliasesPackage(typeAliasesPackage);
         sessionFactory.setMapperLocations(resolveMapperLocations(StringUtils.split(mapperLocations, ",")));
         sessionFactory.setConfigLocation(new DefaultResourceLoader().getResource(configLocation));
+        sessionFactory.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
         return sessionFactory.getObject();
     }
 }

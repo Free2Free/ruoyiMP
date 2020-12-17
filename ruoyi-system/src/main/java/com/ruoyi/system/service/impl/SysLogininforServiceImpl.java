@@ -1,5 +1,6 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -40,9 +41,9 @@ public class SysLogininforServiceImpl extends ServiceImpl<SysLogininforMapper, S
      */
     @Override
     public List<SysLogininfor> selectLogininforList(SysLogininfor logininfor) {
-        return logininforMapper.selectLogininforList(logininfor);
+//        return logininforMapper.selectLogininforList(logininfor);
 
-//        return logininforMapper.selectByMap()
+        return logininforMapper.selectByMap(logininfor.toMap());
     }
 
     /**
@@ -53,7 +54,8 @@ public class SysLogininforServiceImpl extends ServiceImpl<SysLogininforMapper, S
      */
     @Override
     public int deleteLogininforByIds(Long[] infoIds) {
-        return logininforMapper.deleteLogininforByIds(infoIds);
+//        return logininforMapper.deleteLogininforByIds(infoIds);
+        return logininforMapper.deleteBatchIds(Arrays.asList(infoIds));
     }
 
     /**
@@ -61,6 +63,7 @@ public class SysLogininforServiceImpl extends ServiceImpl<SysLogininforMapper, S
      */
     @Override
     public void cleanLogininfor() {
-        logininforMapper.cleanLogininfor();
+//        logininforMapper.cleanLogininfor();
+        logininforMapper.delete(null);
     }
 }

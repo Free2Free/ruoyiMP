@@ -84,6 +84,10 @@ public class BaseController
         return rows > 0 ? AjaxResult.success() : AjaxResult.error();
     }
 
+    protected AjaxResult toAjax(Boolean bool){
+        return toAjax(bool ? 1 : 0);
+    }
+
     /**
      * 页面跳转
      */

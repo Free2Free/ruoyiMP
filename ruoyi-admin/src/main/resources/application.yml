@@ -98,6 +98,7 @@ mybatis:
 
 mybatis-plus:
   mapperLocations: classpath:mybatis/**/*Mapper.xml
+  map-underscore-to-camel-case: true
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.ruoyi.**.**.domain
   global-config:
