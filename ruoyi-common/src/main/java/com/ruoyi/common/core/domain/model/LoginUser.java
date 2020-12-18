@@ -1,7 +1,14 @@
 package com.ruoyi.common.core.domain.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,6 +20,11 @@ import java.util.Set;
  * 
  * @author ruoyi
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@ApiModel()
 public class LoginUser implements UserDetails
 {
     private static final long serialVersionUID = 1L;
@@ -20,61 +32,56 @@ public class LoginUser implements UserDetails
     /**
      * 用户唯一标识
      */
+    @ApiModelProperty(value = "用户唯一标识")
     private String token;
 
     /**
      * 登录时间
      */
+    @ApiModelProperty(value = "登录时间")
     private Long loginTime;
 
     /**
      * 过期时间
      */
+    @ApiModelProperty(value = "过期时间")
     private Long expireTime;
 
     /**
      * 登录IP地址
      */
+    @ApiModelProperty(value = "登录IP地址")
     private String ipaddr;
 
     /**
      * 登录地点
      */
+    @ApiModelProperty(value = "登录地点")
     private String loginLocation;
 
     /**
      * 浏览器类型
      */
+    @ApiModelProperty(value = "浏览器类型")
     private String browser;
 
     /**
      * 操作系统
      */
+    @ApiModelProperty(value = "操作系统")
     private String os;
 
     /**
      * 权限列表
      */
+    @ApiModelProperty(value = "权限列表")
     private Set<String> permissions;
 
     /**
      * 用户信息
      */
+    @TableField(exist = false)
     private SysUser user;
-
-    public String getToken()
-    {
-        return token;
-    }
-
-    public void setToken(String token)
-    {
-        this.token = token;
-    }
-
-    public LoginUser()
-    {
-    }
 
     public LoginUser(SysUser user, Set<String> permissions)
     {
@@ -141,85 +148,85 @@ public class LoginUser implements UserDetails
         return true;
     }
 
-    public Long getLoginTime()
-    {
-        return loginTime;
-    }
-
-    public void setLoginTime(Long loginTime)
-    {
-        this.loginTime = loginTime;
-    }
-
-    public String getIpaddr()
-    {
-        return ipaddr;
-    }
-
-    public void setIpaddr(String ipaddr)
-    {
-        this.ipaddr = ipaddr;
-    }
-
-    public String getLoginLocation()
-    {
-        return loginLocation;
-    }
-
-    public void setLoginLocation(String loginLocation)
-    {
-        this.loginLocation = loginLocation;
-    }
-
-    public String getBrowser()
-    {
-        return browser;
-    }
-
-    public void setBrowser(String browser)
-    {
-        this.browser = browser;
-    }
-
-    public String getOs()
-    {
-        return os;
-    }
-
-    public void setOs(String os)
-    {
-        this.os = os;
-    }
-
-    public Long getExpireTime()
-    {
-        return expireTime;
-    }
-
-    public void setExpireTime(Long expireTime)
-    {
-        this.expireTime = expireTime;
-    }
-
-    public Set<String> getPermissions()
-    {
-        return permissions;
-    }
-
-    public void setPermissions(Set<String> permissions)
-    {
-        this.permissions = permissions;
-    }
-
-    public SysUser getUser()
-    {
-        return user;
-    }
-
-    public void setUser(SysUser user)
-    {
-        this.user = user;
-    }
+//    public Long getLoginTime()
+//    {
+//        return loginTime;
+//    }
+//
+//    public void setLoginTime(Long loginTime)
+//    {
+//        this.loginTime = loginTime;
+//    }
+//
+//    public String getIpaddr()
+//    {
+//        return ipaddr;
+//    }
+//
+//    public void setIpaddr(String ipaddr)
+//    {
+//        this.ipaddr = ipaddr;
+//    }
+//
+//    public String getLoginLocation()
+//    {
+//        return loginLocation;
+//    }
+//
+//    public void setLoginLocation(String loginLocation)
+//    {
+//        this.loginLocation = loginLocation;
+//    }
+//
+//    public String getBrowser()
+//    {
+//        return browser;
+//    }
+//
+//    public void setBrowser(String browser)
+//    {
+//        this.browser = browser;
+//    }
+//
+//    public String getOs()
+//    {
+//        return os;
+//    }
+//
+//    public void setOs(String os)
+//    {
+//        this.os = os;
+//    }
+//
+//    public Long getExpireTime()
+//    {
+//        return expireTime;
+//    }
+//
+//    public void setExpireTime(Long expireTime)
+//    {
+//        this.expireTime = expireTime;
+//    }
+//
+//    public Set<String> getPermissions()
+//    {
+//        return permissions;
+//    }
+//
+//    public void setPermissions(Set<String> permissions)
+//    {
+//        this.permissions = permissions;
+//    }
+//
+//    public SysUser getUser()
+//    {
+//        return user;
+//    }
+//
+//    public void setUser(SysUser user)
+//    {
+//        this.user = user;
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities()

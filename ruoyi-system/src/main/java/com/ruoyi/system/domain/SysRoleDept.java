@@ -1,46 +1,36 @@
 package com.ruoyi.system.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 角色和部门关联 sys_role_dept
- * 
+ *
  * @author ruoyi
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@ApiModel()
+@TableName(value = "sys_role_dept")
 public class SysRoleDept
 {
+    @TableId
+    @ApiModelProperty(value = "序号ID")
+    private Long id;
+
     /** 角色ID */
+    @ApiModelProperty(value = "角色ID")
     private Long roleId;
-    
+
     /** 部门ID */
+    @ApiModelProperty(value = "部门ID")
     private Long deptId;
-
-    public Long getRoleId()
-    {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId)
-    {
-        this.roleId = roleId;
-    }
-
-    public Long getDeptId()
-    {
-        return deptId;
-    }
-
-    public void setDeptId(Long deptId)
-    {
-        this.deptId = deptId;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("roleId", getRoleId())
-            .append("deptId", getDeptId())
-            .toString();
-    }
 }
