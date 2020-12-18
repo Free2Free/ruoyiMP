@@ -1,5 +1,6 @@
 package com.ruoyi.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.domain.entity.SysDictData;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,10 +40,14 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper,SysDic
     @PostConstruct
     public void init()
     {
-        List<SysDictType> dictTypeList = dictTypeMapper.selectDictTypeAll();
+//        List<SysDictType> dictTypeList = dictTypeMapper.selectDictTypeAll();
+        List<SysDictType> dictTypeList = dictTypeMapper.selectList(null);
         for (SysDictType dictType : dictTypeList)
         {
-            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(dictType.getDictType());
+//            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(dictType.getDictType());
+            QueryWrapper<SysDictData> wrapper = new QueryWrapper<SysDictData>();
+            wrapper.eq("dict_type", dictType.getDictType());
+            List<SysDictData> dictDatas = dictDataMapper.selectList(wrapper);
             DictUtils.setDictCache(dictType.getDictType(), dictDatas);
         }
     }
@@ -55,7 +61,8 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper,SysDic
     @Override
     public List<SysDictType> selectDictTypeList(SysDictType dictType)
     {
-        return dictTypeMapper.selectDictTypeList(dictType);
+//        return dictTypeMapper.selectDictTypeList(dictType);
+        return dictTypeMapper.selectByMap(dictType.toMap());
     }
 
     /**
@@ -66,7 +73,8 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper,SysDic
     @Override
     public List<SysDictType> selectDictTypeAll()
     {
-        return dictTypeMapper.selectDictTypeAll();
+//        return dictTypeMapper.selectDictTypeAll();
+        return dictTypeMapper.selectList(null);
     }
 
     /**
@@ -83,7 +91,8 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper,SysDic
         {
             return dictDatas;
         }
-        dictDatas = dictDataMapper.selectDictDataByType(dictType);
+//        dictDatas = dictDataMapper.selectDictDataByType(dictType);
+        dictDatas = dictDataMapper.selectList(new QueryWrapper<SysDictData>().eq("dict_type",dictType));
         if (StringUtils.isNotEmpty(dictDatas))
         {
             DictUtils.setDictCache(dictType, dictDatas);
@@ -101,7 +110,8 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper,SysDic
     @Override
     public SysDictType selectDictTypeById(Long dictId)
     {
-        return dictTypeMapper.selectDictTypeById(dictId);
+//        return dictTypeMapper.selectDictTypeById(dictId);
+        return dictTypeMapper.selectById(dictId);
     }
 
     /**
@@ -113,7 +123,8 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper,SysDic
     @Override
     public SysDictType selectDictTypeByType(String dictType)
     {
-        return dictTypeMapper.selectDictTypeByType(dictType);
+//        return dictTypeMapper.selectDictTypeByType(dictType);
+        return dictTypeMapper.selectOne(new QueryWrapper<SysDictType>().eq("dict_type",dictType));
     }
 
     /**
@@ -128,12 +139,14 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper,SysDic
         for (Long dictId : dictIds)
         {
             SysDictType dictType = selectDictTypeById(dictId);
-            if (dictDataMapper.countDictDataByType(dictType.getDictType()) > 0)
+//            if (dictDataMapper.countDictDataByType(dictType.getDictType()) > 0)
+            if (dictDataMapper.selectCount(new QueryWrapper<SysDictData>().eq("dict_type",dictType.getDictType())) > 0)
             {
                 throw new CustomException(String.format("%1$s已分配,不能删除", dictType.getDictName()));
             }
         }
-        int count = dictTypeMapper.deleteDictTypeByIds(dictIds);
+//        int count = dictTypeMapper.deleteDictTypeByIds(dictIds);
+        int count = dictTypeMapper.deleteBatchIds(Arrays.asList(dictIds));
         if (count > 0)
         {
             DictUtils.clearDictCache();
@@ -159,7 +172,8 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper,SysDic
     @Override
     public int insertDictType(SysDictType dictType)
     {
-        int row = dictTypeMapper.insertDictType(dictType);
+//        int row = dictTypeMapper.insertDictType(dictType);
+        int row = dictTypeMapper.insert(dictType);
         if (row > 0)
         {
             DictUtils.clearDictCache();
@@ -177,9 +191,11 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper,SysDic
     @Transactional
     public int updateDictType(SysDictType dictType)
     {
-        SysDictType oldDict = dictTypeMapper.selectDictTypeById(dictType.getDictId());
+//        SysDictType oldDict = dictTypeMapper.selectDictTypeById(dictType.getDictId());
+        SysDictType oldDict = dictTypeMapper.selectById(dictType.getDictId());
         dictDataMapper.updateDictDataType(oldDict.getDictType(), dictType.getDictType());
         int row = dictTypeMapper.updateDictType(dictType);
+//        int row = dictTypeMapper.updateById(dictType);
         if (row > 0)
         {
             DictUtils.clearDictCache();
@@ -198,6 +214,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper,SysDic
     {
         Long dictId = StringUtils.isNull(dict.getDictId()) ? -1L : dict.getDictId();
         SysDictType dictType = dictTypeMapper.checkDictTypeUnique(dict.getDictType());
+//        SysDictType dictType = dictTypeMapper.selectById(dict.getDictType());
         if (StringUtils.isNotNull(dictType) && dictType.getDictId().longValue() != dictId.longValue())
         {
             return UserConstants.NOT_UNIQUE;

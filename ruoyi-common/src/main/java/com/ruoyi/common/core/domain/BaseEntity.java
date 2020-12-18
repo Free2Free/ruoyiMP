@@ -34,14 +34,18 @@ public class BaseEntity implements Serializable {
     @ApiModelProperty(value = "搜索值")
     private String searchValue;
 
+    @ApiModelProperty(value = "备注")
+    private String remark;
+
+    //******************** 通用属性 ********************
     @ApiModelProperty(value = "创建者")
     @TableField(value = "create_by")
     private String createBy;
 
     @ApiModelProperty(value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(value = "create_time")
-    private Date createTime;
+    @TableField(value = "gmt_create")
+    private Date gmtCreate;
 
     @ApiModelProperty(value = "更新者")
     @TableField(value = "update_by")
@@ -49,11 +53,16 @@ public class BaseEntity implements Serializable {
 
     @ApiModelProperty(value = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(value = "update_time")
-    private Date updateTime;
+    @TableField(value = "gmt_update")
+    private Date gmtUpdate;
 
-    @ApiModelProperty(value = "备注")
-    private String remark;
+    @ApiModelProperty(value = "逻辑删除")
+    private Boolean deleted;
+
+    @ApiModelProperty(value = "乐观锁")
+    private Boolean version;
+
+
 
 //    @TableField(exist = false,select = false,whereStrategy = FieldStrategy.NEVER)
 //    @ApiModelProperty(value = "请求参数")

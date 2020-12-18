@@ -102,7 +102,7 @@ public class SysUser extends BaseEntity {
      * 密码
      */
     @ApiModelProperty("密码")
-    @TableField(select = false)
+//    @TableField(select = false)
     private String password;
 
     /**

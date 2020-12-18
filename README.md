@@ -5,7 +5,9 @@
 - 使用MybatisPlus替换MyBatis：相对于MyBatis繁琐的DAO数据访问层，MP极大简化了应用的数据访问操作，让开发者能够更加专注与业务逻辑服务层和数据结构设计。对于复杂的SQL语句，同样能够使用MyBatis实现，能用MP，尽量使用MP。
 - 使用lombok插件替换set/get方法：lombok能够极大提高JavaBean层简洁度，减少代码干扰，让开发者专注于数据结构的设计
 - 使用bootstrap-swagger-ui替换默认接口管理：默认的Swagger显示界面实用性较差，经过改进后的界面，使用性有较大提高。
+- 使用MP分页实现替换PageHelper插件：后者在嵌套查询存在bug
 - 增加逻辑删除支持。
+- 增加乐观锁支持。
 
 #### 计划增加的模块如下：
 
