@@ -6,6 +6,7 @@
 !gradle/wrapper/gradle-wrapper.jar
 
 target/
+commit.sh
 !.mvn/wrapper/maven-wrapper.jar
 
 ######################################################################
