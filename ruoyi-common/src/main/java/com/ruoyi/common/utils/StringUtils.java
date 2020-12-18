@@ -1,12 +1,8 @@
 package com.ruoyi.common.utils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import com.ruoyi.common.core.text.StrFormatter;
+
+import java.util.*;
 
 /**
  * 字符串工具类
