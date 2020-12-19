@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.system;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.annotation.RepeatSubmit;
 import com.ruoyi.common.constant.UserConstants;
@@ -9,6 +10,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.system.domain.SysConfig;
+import com.ruoyi.system.mapper.SysConfigMapper;
 import com.ruoyi.system.service.ISysConfigService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,17 @@ public class SysConfigController extends BaseController
         List<SysConfig> list = configService.selectConfigList(config);
 
         return getDataTable(list);
+//        configService.page(new Page<>(1,10));
+    }
+
+    @PreAuthorize("@ss.hasPermi('system:config:list')")
+    @GetMapping("/list2")
+    @ApiOperation(value = "获取系统配置列表2")
+    public AjaxResult list2(SysConfig config)
+    {
+        startPage();
+        List<SysConfig> list = configService.listByMap(config.toMap());
+        return AjaxResult.success(getDataTable(list));
     }
 
     @Log(title = "参数管理", businessType = BusinessType.EXPORT)
